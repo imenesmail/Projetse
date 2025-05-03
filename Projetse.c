@@ -30,7 +30,7 @@ void entrer_tunnel(int direction) {
     if (direction == 1) { // Direction X -> Y
         en_attente_x++;
         // Si le tunnel est dans l’autre sens et X a déjà fait 5 trajets d’affilée, attendre
-        while ((direction_actuelle == 2) && (passage_x >= 5 && en_attente_y > 0)) {
+        if ((direction_actuelle == 2) && (passage_x >= 5 && en_attente_y > 0)) {
             pthread_mutex_unlock(&verrou);
             sem_wait(&file_x);
             pthread_mutex_lock(&verrou);
@@ -42,7 +42,7 @@ void entrer_tunnel(int direction) {
         passage_y = 0;
     } else { // Direction Y -> X
         en_attente_y++;
-        while ((direction_actuelle == 1) && (passage_y >= 5 && en_attente_x > 0)) {
+        if ((direction_actuelle == 1) && (passage_y >= 5 && en_attente_x > 0)) {
             pthread_mutex_unlock(&verrou);
             sem_wait(&file_y);
             pthread_mutex_lock(&verrou);
